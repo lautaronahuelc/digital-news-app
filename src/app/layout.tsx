@@ -9,6 +9,7 @@ import 'aos/dist/aos.css';
 
 import type { Metadata } from "next";
 import { EB_Garamond } from "next/font/google";
+import { GoogleTagManager } from '@next/third-parties/google'
 
 import Header from '@/components/Header';
 
@@ -29,6 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <GoogleTagManager gtmId="GTM-PSNBZBSC" />
       <body className={ebGaramond.className}>
         <Header />
         {children}

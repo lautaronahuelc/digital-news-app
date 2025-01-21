@@ -5,10 +5,11 @@ dbConnect();
 
 export async function GET(
   _request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const postItem = await PostItem.findById(params.id).select('-__v');
+    const { id } = await params
+    const postItem = await PostItem.findById(id).select('-__v');
     return Response.json(postItem);
   } catch (error) {
     return new Response(
