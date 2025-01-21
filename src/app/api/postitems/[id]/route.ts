@@ -13,7 +13,7 @@ export async function GET(
     return Response.json(postItem);
   } catch (error) {
     return new Response(
-      JSON.stringify({ message: 'No item Found for this ID' }),
+      JSON.stringify({ message: 'No item Found for this ID', error }),
       { status: 404 }
     );
   }

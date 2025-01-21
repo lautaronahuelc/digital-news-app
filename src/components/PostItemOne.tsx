@@ -1,5 +1,8 @@
 import Link from "next/link";
 import React from "react";
+
+import { PostItem } from "@/types/PostItem";
+
 import "./postItemOne.css";
 
 export default function PostItemOne({
@@ -7,16 +10,7 @@ export default function PostItemOne({
   item,
 }: {
   large: boolean;
-  item: {
-    _id: string;
-    img: string;
-    category: string;
-    date: string;
-    title: string;
-    brief: string;
-    avatar: string;
-    author: string;
-  };
+  item: PostItem;
 }) {
   return (
     <div className={`post-entry-1 ${large ? "lg" : undefined}`}>

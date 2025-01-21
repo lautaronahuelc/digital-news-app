@@ -6,18 +6,19 @@ import React, { useState, useEffect } from "react";
 import Preloader from "@/components/Preloader";
 import PostItemOne from "@/components/PostItemOne";
 import TrendingPost from "@/components/TrendingPost";
+import { PostItem } from "@/types/PostItem";
 
 import "./posts.css";
 
 export default function Posts() {
   const router = useRouter();
-  const [items, setItems] = useState<any | []>([]);
-  const [item, setItem] = useState({});
+  const [items, setItems] = useState<PostItem[]>([]);
+  const [item, setItem] = useState<PostItem | null>(null);
 
   const getItemsData = () => {
     fetch("/api/postitems")
       .then((res) => res.json())
-      .then((data) => setItems(data))
+      .then((data: PostItem[]) => setItems(data))
       .catch((e) => console.log(e.message));
   };
 
@@ -29,15 +30,17 @@ export default function Posts() {
         }
         return res.json();
       })
-      .then((data) => setItem(data))
+      .then((data: PostItem) => setItem(data))
       .catch((e) => console.log(e.message));
   };
 
   useEffect(() => {
     getItemsData();
     getSinglePostData("678ef5b1b748c355673e4ebc");
-  }, []);
+  });
 
+  if (!item) return null;
+  
   return (
     <section id="posts" className="posts">
       <div className="container" data-aos="fade-up">
@@ -50,25 +53,11 @@ export default function Posts() {
               <div className="col-lg-4 border-start custom-border">
                 {items && items.length > 0 ? (
                   items
-                    .filter(
-                      (item: { trending: boolean; top: boolean }) =>
-                        !item.trending && !item.top
-                    )
+                    .filter((item) => !item.trending && !item.top)
                     .slice(0, 3)
-                    .map(
-                      (item: {
-                        _id: string;
-                        img: string;
-                        category: string;
-                        date: string;
-                        title: string;
-                        brief: string;
-                        avatar: string;
-                        author: string;
-                      }) => (
-                        <PostItemOne key={item._id} large={false} item={item} />
-                      )
-                    )
+                    .map((item) => (
+                      <PostItemOne key={item._id} large={false} item={item} />
+                    ))
                 ) : (
                   <Preloader />
                 )}
@@ -76,25 +65,11 @@ export default function Posts() {
               <div className="col-lg-4 border-start custom-border">
                 {items && items.length > 0 ? (
                   items
-                    .filter(
-                      (item: { trending: boolean; top: boolean }) =>
-                        !item.trending && !item.top
-                    )
+                    .filter((item) => !item.trending && !item.top)
                     .slice(3, 6)
-                    .map(
-                      (item: {
-                        _id: string;
-                        img: string;
-                        category: string;
-                        date: string;
-                        title: string;
-                        brief: string;
-                        avatar: string;
-                        author: string;
-                      }) => (
-                        <PostItemOne key={item._id} large={false} item={item} />
-                      )
-                    )
+                    .map((item) => (
+                      <PostItemOne key={item._id} large={false} item={item} />
+                    ))
                 ) : (
                   <Preloader />
                 )}
@@ -105,28 +80,14 @@ export default function Posts() {
                   <ul className="trending-post">
                     {items && items.length > 0 ? (
                       items
-                        .filter((item: { trending: boolean }) => item.trending)
-                        .map(
-                          (
-                            item: {
-                              _id: string;
-                              img: string;
-                              category: string;
-                              date: string;
-                              title: string;
-                              brief: string;
-                              avatar: string;
-                              author: string;
-                            },
-                            index: number
-                          ) => (
-                            <TrendingPost
-                              key={item._id}
-                              index={index}
-                              item={item}
-                            />
-                          )
-                        )
+                        .filter((item) => item.trending)
+                        .map((item, index: number) => (
+                          <TrendingPost
+                            key={item._id}
+                            index={index}
+                            item={item}
+                          />
+                        ))
                     ) : (
                       <Preloader />
                     )}
