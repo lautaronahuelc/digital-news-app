@@ -1,24 +1,26 @@
 'use client';
 
+import Link from "next/link";
 import React, { useState } from "react";
-import './header.css';
+
 import Nav from "./Nav";
 import Sci from "./Sci";
 import SearchForm from "./SearchForm";
+
+import './header.css';
 
 export default function Header() {
   const [open, setOpen] = useState(false);
   const [on, setOn] = useState(false);
 
-  const handleFormOpen = (e: Event | any) => {
-    e.preventDefault();
+  const handleFormOpen = () => {
     setOpen(!open);
   }
 
   const handleToggleMenu = () => {
     setOn(!on);
-    let body: HTMLElement | any = document.querySelector('body');
-    body.classList.toggle('mobile-nav-active');
+    const body = document.querySelector('body');
+    body?.classList.toggle('mobile-nav-active');
   }
 
   return (
@@ -27,9 +29,9 @@ export default function Header() {
       className="header d-flex align-items-center fixed-top"
     >
       <div className="container-fluid container-xl d-flex align-items-center justify-content-between">
-        <a href="/" className="logo d-flex align-items-center">
+        <Link href="/" className="logo d-flex align-items-center">
           <h1>DigitalNews</h1>
-        </a>
+        </Link>
         <Nav />
         <div className="position-relative">
           <Sci />
