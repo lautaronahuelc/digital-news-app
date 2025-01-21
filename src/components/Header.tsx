@@ -13,7 +13,8 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const [on, setOn] = useState(false);
 
-  const handleFormOpen = () => {
+  const handleFormOpen = (e: Event | any) => {
+    e.preventDefault();
     setOpen(!open);
   }
 
